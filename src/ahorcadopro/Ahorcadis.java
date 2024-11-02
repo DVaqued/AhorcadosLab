@@ -14,7 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class Ahorcadis extends JPanel {
-    
+
+    JuegoAhorcadosAzar jA;
     private CardLayout cardlayout;
     private JPanel cardpanel;
     private String palabra;
@@ -23,6 +24,8 @@ public class Ahorcadis extends JPanel {
         this.cardlayout = cardlayout;
         this.cardpanel = cardpanel;
         this.palabra = palabra;
+
+        jA = new JuegoAhorcadosAzar(palabra);
 
         setBackground(Color.gray);
         setSize(600, 600);
@@ -35,9 +38,8 @@ public class Ahorcadis extends JPanel {
         JLabel personita = new JLabel();
         personita.setPreferredSize(new Dimension(200, 200));
 
-        JLabel espacioadivinar = new JLabel();
+        JLabel espacioadivinar = new JLabel("_".repeat(palabra.length()));
         espacioadivinar.setPreferredSize(new Dimension(300, 30));
-        espacioadivinar.setText("_".repeat(palabra.length()));
 
         JTextField textfield = new JTextField();
         textfield.setPreferredSize(new Dimension(40, 30));
@@ -51,9 +53,16 @@ public class Ahorcadis extends JPanel {
                     String temp = textfield.getText();
                     if (temp.length() == 1) {
                         char letra = temp.charAt(0);
-                        // Aquí deberías llamar a la lógica para verificar la letra
-                        // Ejemplo: verificarLetra(letra);
-                        // Actualiza espacioadivinar con la nueva palabra actual
+                        jA.verificarLetra(letra);
+                        
+                        espacioadivinar.setText(jA.palabraActual);
+                        if (jA.hasGanado()) {
+                            JOptionPane.showMessageDialog(null, "Haz ganado!");
+                            cardlayout.show(cardpanel, "menu");
+                        } else if (jA.hasPerdido()) {
+                            JOptionPane.showMessageDialog(null, "Haz perdido! La palabra era: " + jA.palabraSecreta);
+                            cardlayout.show(cardpanel, "menu");
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Ingrese unicamente una letra");
                     }

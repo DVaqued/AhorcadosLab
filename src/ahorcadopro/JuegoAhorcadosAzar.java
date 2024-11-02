@@ -2,6 +2,11 @@ package ahorcadopro;
 
 public class JuegoAhorcadosAzar extends JuegoAhorcadoBase {
 
+    public JuegoAhorcadosAzar() {
+        this.palabraActual = ""; // O algún valor predeterminado
+        this.intentos = 6;
+    }
+
     public JuegoAhorcadosAzar(String palabra) {
         this.palabraSecreta = palabra;
         this.palabraActual = "_".repeat(palabra.length());
@@ -25,7 +30,7 @@ public class JuegoAhorcadosAzar extends JuegoAhorcadoBase {
     }
 
     public boolean verificarLetra(char letra) {
-        if (palabraSecreta.indexOf(letra) >= 0) {
+        if (palabraSecreta != null && palabraSecreta.indexOf(letra) >= 0) {
             actualizarPalabraActual(letra);
             return true;
         } else {
@@ -35,7 +40,7 @@ public class JuegoAhorcadosAzar extends JuegoAhorcadoBase {
     }
 
     public boolean hasGanado() {
-        return palabraActual.equals(palabraSecreta);
+        return palabraActual != null && palabraActual.equals(palabraSecreta);
     }
 
     public boolean hasPerdido() {
